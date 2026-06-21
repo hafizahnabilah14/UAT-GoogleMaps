@@ -42,11 +42,6 @@
 
         .map-lines { width: 100%; height: 100%; position: absolute; opacity: 0.5; }
 
-        .maps-logo{
-             width:120px;
-             margin-bottom:20px;
-        }
-
         .floating-element {
             position: absolute;
             font-size: 2rem;
@@ -111,7 +106,25 @@
             margin-bottom: 1.5rem;
         }
 
-        .main-title { font-size: 3.5rem; line-height: 1.2; margin-bottom: 1rem; }
+        /* FLEXBOX UNTUK LOGO & JUDUL */
+        .title-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 1rem;
+        }
+
+        .maps-logo {
+            width: 80px;
+            height: auto;
+        }
+
+        .main-title { 
+            font-size: 3.5rem; 
+            line-height: 1.2; 
+            text-align: left; 
+        }
 
         .gradient-text {
             background: linear-gradient(45deg, var(--g-blue), var(--g-green));
@@ -362,7 +375,15 @@
 
         /* ── RESPONSIVE ── */
         @media(max-width:768px){
-            .main-title { font-size:2rem; }
+            .title-wrapper {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            .main-title { 
+                font-size:2.5rem; 
+                text-align: center;
+            }
             .stats-container { grid-template-columns:repeat(2,1fr); }
             .dashboard-grid { grid-template-columns:1fr; }
             .button-group { flex-direction:column; align-items:stretch; }
@@ -393,11 +414,14 @@
     <section id="hero-section" class="section active">
         <div class="hero-content fade-up">
             <span class="badge">🗺️ USER ACCEPTANCE TEST</span>
-            <img src="logomaps2.png" alt="Google Maps Logo" class="maps-logo">
-            <h1 class="main-title">Google Maps <span class="gradient-text">Experience Survey</span></h1>
+            
+            <div class="title-wrapper">
+                <img src="logomaps2.png" alt="Google Maps Logo" class="maps-logo">
+                <h1 class="main-title">Google Maps<br><span class="gradient-text">Experience Survey</span></h1>
+            </div>
+
             <p class="subtitle">Evaluasi Kemudahan Penggunaan Aplikasi Google Maps</p>
 
-            <!-- Welcome message -->
             <div class="welcome-box">
                 👋 Selamat datang! Saya <strong>Hafizah Nabilah</strong>, mahasiswa Program Studi Sistem Informasi
                 <strong>Universitas Islam Kalimantan Muhammad Arsyad Al Banjari Banjarmasin</strong>.
@@ -445,13 +469,16 @@
 
             <form id="identity-form" onsubmit="submitIdentity(event)">
 
-                <!-- Nama -->
                 <div class="input-group">
                     <label for="nama"><i class="fa-solid fa-user"></i> Nama Lengkap <span style="color:#EA4335">*</span></label>
                     <input type="text" id="nama" required placeholder="Masukkan nama lengkap Anda">
                 </div>
 
-                <!-- Jenis Kelamin -->
+                <div class="input-group">
+                    <label for="email"><i class="fa-solid fa-envelope"></i> Alamat Email <span style="color:#EA4335">*</span></label>
+                    <input type="email" id="email" required placeholder="Masukkan email aktif Anda">
+                </div>
+
                 <div class="input-group">
                     <label for="gender"><i class="fa-solid fa-venus-mars"></i> Jenis Kelamin <span style="color:#EA4335">*</span></label>
                     <select id="gender" required>
@@ -461,10 +488,9 @@
                     </select>
                 </div>
 
-                <!-- Usia -->
                 <div class="input-group">
                     <label for="usia"><i class="fa-solid fa-calendar"></i> Usia <span style="color:#EA4335">*</span></label>
-                    <input type="number" id="usia" required placeholder="Contoh: 21" min="10" max="100">
+                    <input type="number" inputmode="numeric" pattern="[0-9]*" id="usia" required placeholder="Contoh: 21" min="10" max="100">
                 </div>
 
                 <!-- ── FOTO UPLOAD ── -->
@@ -585,7 +611,6 @@
                 </div>
             </div>
 
-            <!-- Score breakdown -->
             <p class="breakdown-title"><i class="fa-solid fa-list-check"></i> Rincian Skor per Pertanyaan</p>
             <div class="breakdown-grid" id="breakdown-grid"></div>
 
@@ -602,6 +627,7 @@
             <h2>Evaluasi Berhasil Dikirim! 🎉</h2>
             <p>Terima kasih banyak telah meluangkan waktu untuk mengisi survei ini. Semoga segala kebaikan yang Anda berikan dibalas dengan kebahagiaan, kesehatan, kesuksesan, serta kelancaran dalam setiap langkah dan cita-cita yang sedang diperjuangkan. Semoga hari-hari Anda selalu dipenuhi hal-hal baik✨</p>
             <div class="success-summary" id="success-summary"></div>
+            <!-- Tombol reload dikembalikan -->
             <button class="btn btn-secondary mt-4" onclick="location.reload()">
                 <i class="fa-solid fa-rotate-right"></i> Isi Survey Lagi
             </button>
@@ -641,7 +667,7 @@ const questions = [
 let currentStep  = 0;
 let respondentData = {};
 let answers      = [];
-let photoBase64  = null;   // stores base64 string of uploaded photo
+let photoBase64  = null;
 let photoMime    = null;
 
 // ─────────────────────────────────────
@@ -687,13 +713,11 @@ function processPhoto(file) {
     const errEl  = document.getElementById('photo-error');
     const MAX_MB = 10;
 
-    // Validate type
     if (!file.type.startsWith('image/')) {
         errEl.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> File harus berupa gambar (JPG, PNG, WEBP).';
         errEl.style.display = 'block';
         return;
     }
-    // Validate size
     if (file.size > MAX_MB * 1024 * 1024) {
         errEl.style.display = 'block';
         return;
@@ -702,11 +726,10 @@ function processPhoto(file) {
 
     const reader = new FileReader();
     reader.onload = function(ev) {
-        const result = ev.target.result;          // data:image/xxx;base64,....
-        photoBase64  = result.split(',')[1];       // pure base64
+        const result = ev.target.result;
+        photoBase64  = result.split(',')[1];
         photoMime    = file.type;
 
-        // Show preview
         document.getElementById('photo-preview').src = result;
         document.getElementById('photo-preview-wrap').classList.add('show');
         document.getElementById('photo-name').innerHTML =
@@ -733,6 +756,7 @@ function submitIdentity(e) {
     e.preventDefault();
     respondentData = {
         nama         : document.getElementById('nama').value.trim(),
+        email        : document.getElementById('email').value.trim(),
         jenis_kelamin: document.getElementById('gender').value,
         usia         : document.getElementById('usia').value
     };
@@ -758,7 +782,6 @@ function renderQuestion() {
 }
 
 function selectOption(score, el) {
-    // Visual feedback
     document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
     el.classList.add('selected');
     answers[currentStep] = score;
@@ -768,7 +791,6 @@ function selectOption(score, el) {
             currentStep++;
             renderQuestion();
         } else {
-            // Reach finish
             document.getElementById('car-progress').style.left = '100%';
             document.getElementById('track-fill').style.width  = '100%';
             document.getElementById('progress-percent').innerText = '100';
@@ -794,7 +816,6 @@ function calculateResults() {
     else if (percentage > 20) { category = "Lost Traveler 🟠";        color = "#f97316"; }
     else                       { category = "Need Directions 🔴";     color = "#EA4335"; }
 
-    // Update UI
     document.getElementById('res-score').innerText    = totalScore;
     document.getElementById('res-pct-text').innerText = percentage.toFixed(1) + '%';
 
@@ -802,10 +823,8 @@ function calculateResults() {
     badge.innerText = category;
     badge.style.cssText = `background:${color}33;color:${color};border:1px solid ${color};`;
 
-    // Animate gauge number
     animateValue('res-percent', 0, percentage, 1400, '%');
 
-    // Animate gauge circle
     setTimeout(() => {
         document.getElementById('gauge-chart').style.background =
             `conic-gradient(${color} ${percentage}%, rgba(255,255,255,0.05) 0%)`;
@@ -813,7 +832,6 @@ function calculateResults() {
             `0 0 30px ${color}33, inset 0 0 20px rgba(0,0,0,.3)`;
     }, 100);
 
-    // Breakdown grid
     const grid = document.getElementById('breakdown-grid');
     grid.innerHTML = answers.map((v,i) => `
         <div class="bk-item">
@@ -821,7 +839,6 @@ function calculateResults() {
             <div class="bk-val" style="color:${scoreColor(v)}">${v}</div>
         </div>`).join('');
 
-    // Save for submit
     respondentData.total_skor  = totalScore;
     respondentData.persentase  = percentage.toFixed(2);
     respondentData.kategori    = category;
@@ -855,31 +872,28 @@ function submitData() {
     btn.disabled = true;
     btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Memproses Data...`;
 
-    // Build JSON payload (supports photo as base64)
     const payload = {
         timestamp    : new Date().toISOString(),
         nama         : respondentData.nama,
+        email        : respondentData.email,
         jenis_kelamin: respondentData.jenis_kelamin,
         usia         : respondentData.usia,
         total_skor   : respondentData.total_skor,
         persentase   : respondentData.persentase,
         kategori     : respondentData.kategori,
-        // Photo — kirim sebagai base64 jika ada, atau string kosong
         foto_mime    : photoMime    || '',
         foto_base64  : photoBase64  || ''
     };
 
-    // Answers q1–q10
     answers.forEach((v, i) => { payload[`q${i+1}`] = v; });
 
     fetch(SCRIPT_URL, {
         method : 'POST',
-        mode   : 'no-cors',                  // Required for GAS Web App
+        mode   : 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body   : JSON.stringify(payload)
     })
     .then(() => {
-        // no-cors → opaque response; treat as success
         showSuccess();
     })
     .catch(err => {
@@ -891,14 +905,14 @@ function submitData() {
 }
 
 function showSuccess() {
-    // Populate summary
     const sum = document.getElementById('success-summary');
     sum.innerHTML = `
         <div class="ss-item"><div class="ss-label">Nama</div><div class="ss-val">${respondentData.nama}</div></div>
-        <div class="ss-item"><div class="ss-label">Jenis Kelamin</div><div class="ss-val">${respondentData.jenis_kelamin}</div></div>
+        <div class="ss-item"><div class="ss-label">Email</div><div class="ss-val">${respondentData.email}</div></div>
         <div class="ss-item"><div class="ss-label">Total Skor</div><div class="ss-val">${respondentData.total_skor} / 50</div></div>
         <div class="ss-item"><div class="ss-label">Kategori</div><div class="ss-val">${respondentData.kategori}</div></div>
     `;
+    
     triggerConfetti();
     switchSection('success-section');
 }
@@ -933,4 +947,4 @@ function createConfetti() {
 }
 </script>
 </body>
-</html> 
+</html>
