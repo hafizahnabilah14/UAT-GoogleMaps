@@ -828,7 +828,7 @@ function submitData() {
     btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Memproses Data...`;
 
     const payload = {
-        timestamp    : new Date().toISOString(),
+        timestamp    : new Date().toLocaleString('id-ID'),
         nama         : respondentData.nama,
         email        : respondentData.email,
         jenis_kelamin: respondentData.jenis_kelamin,
