@@ -204,12 +204,6 @@
         .btn-secondary:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
         .btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none !important; }
 
-        /* stats */
-        .stats-container { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; }
-        .stat-box { text-align: center; padding: 1.5rem 1rem; transition: transform 0.3s; }
-        .stat-box:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.3); }
-        .stat-icon { font-size: 1.5rem; margin-bottom: 10px; color: var(--g-yellow); }
-
         /* ── IDENTITY ── */
         .identity-card h2 { margin-bottom: .4rem; }
         .identity-card > p { color: var(--text-muted); margin-bottom: 1.5rem; font-size:.9rem; }
@@ -407,7 +401,6 @@
                 font-size:2.5rem; 
                 text-align: center;
             }
-            .stats-container { grid-template-columns:repeat(2,1fr); }
             .dashboard-grid { grid-template-columns:1fr; }
             .button-group { flex-direction:column; align-items:stretch; }
             .breakdown-grid { grid-template-columns:repeat(5,1fr); }
@@ -433,6 +426,7 @@
 
 <main class="app-container glass-panel">
 
+    <!-- ══════════════ HERO ══════════════ -->
     <section id="hero-section" class="section active">
         <div class="hero-content fade-up">
             <span class="badge">🗺️ USER ACCEPTANCE TEST</span>
@@ -453,38 +447,20 @@
                 Google Maps. Terima kasih atas partisipasi dan dukungan Anda terhadap penelitian ini.
             </div>
 
+            <!-- Tombol Lihat Informasi dan Stats Container Dihapus -->
             <div class="button-group">
                 <button class="btn btn-primary" onclick="startSurvey()">
                     <i class="fa-solid fa-rocket"></i> Mulai Survey
                 </button>
-                <button class="btn btn-secondary" onclick="scrollToStats()">
-                    <i class="fa-solid fa-chart-column"></i> Lihat Informasi
-                </button>
             </div>
-
-            <div class="stats-container" id="stats-area">
-                <div class="stat-box glass-card">
-                    <i class="fa-solid fa-users stat-icon"></i>
-                    <h3>50+</h3><p>Responden</p>
-                </div>
-                <div class="stat-box glass-card">
-                    <i class="fa-solid fa-clipboard-question stat-icon"></i>
-                    <h3>10</h3><p>Pertanyaan</p>
-                </div>
-                <div class="stat-box glass-card">
-                    <i class="fa-solid fa-star stat-icon"></i>
-                    <h3>50</h3><p>Skor Maksimum</p>
-                </div>
-                <div class="stat-box glass-card">
-                    <i class="fa-solid fa-layer-group stat-icon"></i>
-                    <h3>Usability</h3><p>Aspek</p>
-                </div>
-            </div>
+            
         </div>
     </section>
 
+    <!-- ══════════════ IDENTITY ══════════════ -->
     <section id="identity-section" class="section">
         <div class="identity-card glass-card fade-up">
+            <!-- Tombol Kembali ke Hero -->
             <button type="button" class="btn-back" onclick="switchSection('hero-section')">
                 <i class="fa-solid fa-arrow-left"></i> Kembali ke Awal
             </button>
@@ -518,6 +494,7 @@
                     <input type="number" inputmode="numeric" pattern="[0-9]*" id="usia" required placeholder="Contoh: 21" min="10" max="100">
                 </div>
 
+                <!-- ── FOTO UPLOAD ── -->
                 <div class="input-group">
                     <label><i class="fa-solid fa-camera"></i> Foto Screenshot Google Maps <span style="color:var(--text-muted);font-size:.8rem;">(opsional)</span></label>
                     <div class="photo-upload-area" id="upload-area"
@@ -552,7 +529,9 @@
         </div>
     </section>
 
+    <!-- ══════════════ SURVEY ══════════════ -->
     <section id="survey-section" class="section">
+        <!-- Tombol Kembali Saat Menjawab Pertanyaan -->
         <button type="button" class="btn-back fade-up" onclick="surveyGoBack()">
             <i class="fa-solid fa-arrow-left"></i> Kembali
         </button>
@@ -607,8 +586,10 @@
         </div>
     </section>
 
+    <!-- ══════════════ RESULT ══════════════ -->
     <section id="result-section" class="section">
         <div class="result-card glass-card fade-up">
+            <!-- Tombol Kembali ke Survey Jika Ingin Mengubah Jawaban Terakhir -->
             <button type="button" class="btn-back" onclick="backToSurvey()">
                 <i class="fa-solid fa-arrow-left"></i> Edit Jawaban
             </button>
@@ -650,6 +631,7 @@
         </div>
     </section>
 
+    <!-- ══════════════ SUCCESS ══════════════ -->
     <section id="success-section" class="section">
         <div class="success-card glass-card fade-up">
             <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
@@ -717,7 +699,6 @@ function switchSection(id) {
 }
 
 function startSurvey()    { switchSection('identity-section'); }
-function scrollToStats()  { document.getElementById('stats-area').scrollIntoView({ behavior: 'smooth' }); }
 
 // Logika Fungsi Tombol Kembali
 function surveyGoBack() {
