@@ -222,49 +222,6 @@
         .input-group input::placeholder { color: rgba(255,255,255,0.3); }
         .input-group select option { background: #1e293b; color: white; }
 
-        /* ── PHOTO UPLOAD ── */
-        .photo-upload-area {
-            border: 2px dashed rgba(66,133,244,0.4);
-            border-radius: 14px;
-            padding: 1.5rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: rgba(66,133,244,0.05);
-            position: relative;
-        }
-        .photo-upload-area:hover { border-color: var(--g-blue); background: rgba(66,133,244,0.1); }
-        .photo-upload-area.dragover { border-color: var(--g-green); background: rgba(52,168,83,0.1); }
-
-        .photo-upload-area input[type="file"] {
-            position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
-        }
-
-        .upload-icon { font-size: 2.2rem; color: var(--g-blue); margin-bottom: .5rem; }
-        .upload-title { font-weight: 600; font-size: 1rem; margin-bottom: .3rem; }
-        .upload-sub { font-size: .8rem; color: var(--text-muted); }
-        .upload-limit { font-size: .75rem; color: rgba(255,255,255,0.3); margin-top:.3rem; }
-
-        .photo-preview-wrap {
-            display: none; position: relative; margin-top: 1rem;
-        }
-        .photo-preview-wrap.show { display: block; }
-        .photo-preview-wrap img {
-            width: 100%; max-height: 200px; object-fit: cover;
-            border-radius: 10px; border: 1px solid rgba(255,255,255,0.15);
-        }
-        .photo-remove-btn {
-            position: absolute; top: 8px; right: 8px;
-            background: rgba(234,67,53,0.8); border: none; color: white;
-            border-radius: 50%; width: 28px; height: 28px;
-            cursor: pointer; font-size: .8rem; display: flex; align-items:center; justify-content:center;
-            transition: background .2s;
-        }
-        .photo-remove-btn:hover { background: #EA4335; }
-        .photo-name {
-            font-size:.8rem; color: var(--g-green); margin-top:.5rem; display:flex; align-items:center; gap:6px;
-        }
-
         .w-100 { width: 100%; }
         .mt-4 { margin-top: 1.5rem; }
 
@@ -397,7 +354,7 @@
                 text-align: center;
             }
             .button-group { flex-direction:column; align-items:stretch; }
-            .survey-nav { flex-direction: column-reverse; } /* Tombol selanjutnya di atas saat di HP */
+            .survey-nav { flex-direction: column-reverse; } 
             .breakdown-grid { grid-template-columns:repeat(5,1fr); }
             .success-summary { grid-template-columns:1fr; }
         }
@@ -421,7 +378,6 @@
 
 <main class="app-container glass-panel">
 
-    <!-- ══════════════ HERO ══════════════ -->
     <section id="hero-section" class="section active">
         <div class="hero-content fade-up">
             <span class="badge">🗺️ USER ACCEPTANCE TEST</span>
@@ -450,7 +406,6 @@
         </div>
     </section>
 
-    <!-- ══════════════ IDENTITY ══════════════ -->
     <section id="identity-section" class="section">
         <div class="identity-card glass-card fade-up">
             <button type="button" class="btn-back" onclick="switchSection('hero-section')">
@@ -486,41 +441,13 @@
                     <input type="number" inputmode="numeric" pattern="[0-9]*" id="usia" required placeholder="Contoh: 21" min="10" max="100">
                 </div>
 
-                <div class="input-group">
-                    <label><i class="fa-solid fa-camera"></i> Foto Screenshot Google Maps <span style="color:var(--text-muted);font-size:.8rem;">(opsional)</span></label>
-                    <div class="photo-upload-area" id="upload-area"
-                         ondragover="handleDragOver(event)"
-                         ondragleave="handleDragLeave(event)"
-                         ondrop="handleDrop(event)">
-                        <input type="file" id="photo-input" accept="image/*"
-                               onchange="handlePhotoChange(event)">
-                        <div id="upload-placeholder">
-                            <div class="upload-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-                            <div class="upload-title">Klik atau seret foto ke sini</div>
-                            <div class="upload-sub">Upload foto screenshot halaman Google Maps</div>
-                            <div class="upload-limit">Format: JPG, PNG, WEBP · Maks. 10 MB</div>
-                        </div>
-                    </div>
-                    <div class="photo-preview-wrap" id="photo-preview-wrap">
-                        <img id="photo-preview" src="" alt="Preview">
-                        <button type="button" class="photo-remove-btn" onclick="removePhoto()" title="Hapus foto">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-                        <div class="photo-name" id="photo-name"></div>
-                    </div>
-                    <div id="photo-error" style="color:#EA4335;font-size:.8rem;margin-top:.4rem;display:none;">
-                        <i class="fa-solid fa-circle-exclamation"></i> Ukuran file melebihi 10 MB. Pilih foto lain.
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-primary w-100">
+                <button type="submit" class="btn btn-primary w-100 mt-4">
                     Lanjutkan Survey <i class="fa-solid fa-arrow-right"></i>
                 </button>
             </form>
         </div>
     </section>
 
-    <!-- ══════════════ SURVEY ══════════════ -->
     <section id="survey-section" class="section">
         <div class="survey-header">
             <div class="progress-journey">
@@ -571,12 +498,10 @@
                 </div>
             </div>
 
-            <!-- Pesan Peringatan Jika Belum Memilih -->
             <div id="survey-warning">
                 <i class="fa-solid fa-circle-exclamation"></i> Silakan pilih salah satu jawaban terlebih dahulu.
             </div>
 
-            <!-- Tombol Navigasi Survey -->
             <div class="survey-nav">
                 <button type="button" class="btn btn-secondary" onclick="surveyGoBack()">
                     <i class="fa-solid fa-arrow-left"></i> Sebelumnya
@@ -588,7 +513,6 @@
         </div>
     </section>
 
-    <!-- ══════════════ RESULT ══════════════ -->
     <section id="result-section" class="section">
         <div class="result-card glass-card fade-up">
             <button type="button" class="btn-back" onclick="backToSurvey()">
@@ -607,7 +531,6 @@
         </div>
     </section>
 
-    <!-- ══════════════ SUCCESS ══════════════ -->
     <section id="success-section" class="section">
         <div class="success-card glass-card fade-up">
             <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
@@ -654,8 +577,6 @@ const questions = [
 let currentStep  = 0;
 let respondentData = {};
 let answers      = [];
-let photoBase64  = null;
-let photoMime    = null;
 
 // ─────────────────────────────────────
 //  NAVIGATION
@@ -677,7 +598,7 @@ function switchSection(id) {
 function startSurvey() { switchSection('identity-section'); }
 
 // ─────────────────────────────────────
-//  SURVEY NAVIGATION LOGIC (BARU)
+//  SURVEY NAVIGATION LOGIC
 // ─────────────────────────────────────
 function surveyGoBack() {
     if (currentStep > 0) {
@@ -721,67 +642,6 @@ function backToSurvey() {
     currentStep = 9; 
     switchSection('survey-section');
     renderQuestion();
-}
-
-// ─────────────────────────────────────
-//  PHOTO UPLOAD HANDLERS
-// ─────────────────────────────────────
-function handleDragOver(e) {
-    e.preventDefault();
-    document.getElementById('upload-area').classList.add('dragover');
-}
-function handleDragLeave(e) {
-    document.getElementById('upload-area').classList.remove('dragover');
-}
-function handleDrop(e) {
-    e.preventDefault();
-    document.getElementById('upload-area').classList.remove('dragover');
-    const file = e.dataTransfer.files[0];
-    if (file) processPhoto(file);
-}
-function handlePhotoChange(e) {
-    const file = e.target.files[0];
-    if (file) processPhoto(file);
-}
-
-function processPhoto(file) {
-    const errEl  = document.getElementById('photo-error');
-    const MAX_MB = 10;
-
-    if (!file.type.startsWith('image/')) {
-        errEl.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> File harus berupa gambar (JPG, PNG, WEBP).';
-        errEl.style.display = 'block';
-        return;
-    }
-    if (file.size > MAX_MB * 1024 * 1024) {
-        errEl.style.display = 'block';
-        return;
-    }
-    errEl.style.display = 'none';
-
-    const reader = new FileReader();
-    reader.onload = function(ev) {
-        const result = ev.target.result;
-        photoBase64  = result.split(',')[1];
-        photoMime    = file.type;
-
-        document.getElementById('photo-preview').src = result;
-        document.getElementById('photo-preview-wrap').classList.add('show');
-        document.getElementById('photo-name').innerHTML =
-            `<i class="fa-solid fa-check-circle"></i> ${file.name} (${(file.size/1024).toFixed(1)} KB)`;
-        document.getElementById('upload-placeholder').style.opacity = '0.4';
-    };
-    reader.readAsDataURL(file);
-}
-
-function removePhoto() {
-    photoBase64 = null; photoMime = null;
-    document.getElementById('photo-input').value = '';
-    document.getElementById('photo-preview-wrap').classList.remove('show');
-    document.getElementById('photo-preview').src = '';
-    document.getElementById('photo-name').innerHTML = '';
-    document.getElementById('upload-placeholder').style.opacity = '1';
-    document.getElementById('photo-error').style.display = 'none';
 }
 
 // ─────────────────────────────────────
@@ -831,7 +691,7 @@ function renderQuestion() {
         if(cards[idx]) cards[idx].classList.add('selected');
     }
 
-    // Ubah teks tombol Selanjutnya jadi "Selesai" jika di pertanyaan ke-10
+    // Ubah teks tombol Selanjutnya jadi "Lihat Hasil" jika di pertanyaan ke-10
     const btnNext = document.getElementById('btn-next');
     if (currentStep === 9) {
         btnNext.innerHTML = `Lihat Hasil <i class="fa-solid fa-flag-checkered"></i>`;
@@ -899,9 +759,7 @@ function submitData() {
         usia         : respondentData.usia,
         total_skor   : respondentData.total_skor,
         persentase   : respondentData.persentase,
-        kategori     : respondentData.kategori,
-        foto_mime    : photoMime    || '',
-        foto_base64  : photoBase64  || ''
+        kategori     : respondentData.kategori
     };
 
     answers.forEach((v, i) => { payload[`q${i+1}`] = v; });
