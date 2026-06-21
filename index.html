@@ -92,7 +92,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ── BUTTON KEMBALI ── */
+        /* ── BUTTON KEMBALI (ATAS) ── */
         .btn-back {
             background: transparent;
             color: var(--text-muted);
@@ -330,6 +330,30 @@
             border-radius: 8px; font-size: .85rem; color: var(--text-muted);
         }
 
+        /* ── SURVEY NAVIGATION & WARNING ── */
+        .survey-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .survey-nav .btn {
+            flex: 1; 
+        }
+        #survey-warning {
+            display: none;
+            color: #EA4335;
+            background: rgba(234, 67, 53, 0.1);
+            border: 1px solid rgba(234, 67, 53, 0.3);
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 0.85rem;
+            margin-top: 1.5rem;
+        }
+
         /* ── RESULT ── */
         .result-card h2 { margin-bottom: .3rem; }
         .result-card > .sub { color: var(--text-muted); font-size:.9rem; margin-bottom:1.5rem; }
@@ -373,6 +397,7 @@
                 text-align: center;
             }
             .button-group { flex-direction:column; align-items:stretch; }
+            .survey-nav { flex-direction: column-reverse; } /* Tombol selanjutnya di atas saat di HP */
             .breakdown-grid { grid-template-columns:repeat(5,1fr); }
             .success-summary { grid-template-columns:1fr; }
         }
@@ -396,6 +421,7 @@
 
 <main class="app-container glass-panel">
 
+    <!-- ══════════════ HERO ══════════════ -->
     <section id="hero-section" class="section active">
         <div class="hero-content fade-up">
             <span class="badge">🗺️ USER ACCEPTANCE TEST</span>
@@ -408,7 +434,7 @@
             <p class="subtitle">Evaluasi Kemudahan Penggunaan Aplikasi Google Maps</p>
 
             <div class="welcome-box">
-                👋 Halooo! Saya <strong>Hafizah Nabilah</strong>, mahasiswa Program Studi Sistem Informasi
+                👋 Selamat datang! Saya <strong>Hafizah Nabilah</strong>, mahasiswa Program Studi Sistem Informasi
                 <strong>Universitas Islam Kalimantan Muhammad Arsyad Al Banjari Banjarmasin</strong>.
                 Survei ini disusun sebagai bagian dari penelitian akademik untuk mengevaluasi
                 <em>usability</em> (kemudahan penggunaan) aplikasi Google Maps. Mohon luangkan
@@ -421,10 +447,10 @@
                     <i class="fa-solid fa-rocket"></i> Mulai Survey
                 </button>
             </div>
-            
         </div>
     </section>
 
+    <!-- ══════════════ IDENTITY ══════════════ -->
     <section id="identity-section" class="section">
         <div class="identity-card glass-card fade-up">
             <button type="button" class="btn-back" onclick="switchSection('hero-section')">
@@ -494,11 +520,8 @@
         </div>
     </section>
 
+    <!-- ══════════════ SURVEY ══════════════ -->
     <section id="survey-section" class="section">
-        <button type="button" class="btn-back fade-up" onclick="surveyGoBack()">
-            <i class="fa-solid fa-arrow-left"></i> Kembali
-        </button>
-
         <div class="survey-header">
             <div class="progress-journey">
                 <div class="flag">🏁</div>
@@ -514,6 +537,7 @@
         <div class="question-container glass-card fade-up" id="question-card">
             <span class="question-number">Pertanyaan <span id="q-num">1</span> / 10</span>
             <h2 class="question-text" id="q-text"></h2>
+            
             <div class="options-grid" id="options-grid">
                 <div class="option-card" onclick="selectOption(5,this)">
                     <div class="emoji">😍</div>
@@ -546,9 +570,25 @@
                     <i class="fa-solid fa-circle-check check-icon"></i>
                 </div>
             </div>
+
+            <!-- Pesan Peringatan Jika Belum Memilih -->
+            <div id="survey-warning">
+                <i class="fa-solid fa-circle-exclamation"></i> Silakan pilih salah satu jawaban terlebih dahulu.
+            </div>
+
+            <!-- Tombol Navigasi Survey -->
+            <div class="survey-nav">
+                <button type="button" class="btn btn-secondary" onclick="surveyGoBack()">
+                    <i class="fa-solid fa-arrow-left"></i> Sebelumnya
+                </button>
+                <button type="button" class="btn btn-primary" id="btn-next" onclick="surveyGoNext()">
+                    Selanjutnya <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
         </div>
     </section>
 
+    <!-- ══════════════ RESULT ══════════════ -->
     <section id="result-section" class="section">
         <div class="result-card glass-card fade-up">
             <button type="button" class="btn-back" onclick="backToSurvey()">
@@ -567,6 +607,7 @@
         </div>
     </section>
 
+    <!-- ══════════════ SUCCESS ══════════════ -->
     <section id="success-section" class="section">
         <div class="success-card glass-card fade-up">
             <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
@@ -599,7 +640,7 @@ const questions = [
     "Seberapa mudah Anda mencari lokasi atau tempat yang diinginkan menggunakan Google Maps?",
     "Seberapa mudah Anda memahami fungsi menu-menu yang tersedia pada Google Maps?",
     "Seberapa mudah Anda menggunakan fitur petunjuk arah (Directions) pada Google Maps?",
-    "Seberapa mudah Anda memilih mode transportasi yang tersedia pada Google Maps?",
+    "Seberapa mudah Anda memilih moda transportasi yang tersedia pada Google Maps?",
     "Seberapa mudah Anda menemukan informasi suatu tempat melalui Google Maps?",
     "Seberapa mudah Anda memahami simbol dan ikon yang ditampilkan pada Google Maps?",
     "Seberapa mudah Anda menggunakan fitur pencarian rute alternatif pada Google Maps?",
@@ -633,21 +674,50 @@ function switchSection(id) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function startSurvey()    { switchSection('identity-section'); }
+function startSurvey() { switchSection('identity-section'); }
 
-// Logika Fungsi Tombol Kembali
+// ─────────────────────────────────────
+//  SURVEY NAVIGATION LOGIC (BARU)
+// ─────────────────────────────────────
 function surveyGoBack() {
     if (currentStep > 0) {
         currentStep--;
         renderQuestion();
     } else {
-        // Jika sedang di Pertanyaan 1, kembali ke halaman Identitas
         switchSection('identity-section');
     }
 }
 
+function surveyGoNext() {
+    const warning = document.getElementById('survey-warning');
+    
+    // VALIDASI: Cek apakah responden sudah memilih jawaban
+    if (answers[currentStep] === undefined || answers[currentStep] === null) {
+        warning.style.display = 'block';
+        // Animasi getar kecil
+        warning.style.animation = 'none';
+        void warning.offsetWidth;
+        warning.style.animation = 'bounceSelect 0.4s ease';
+        return;
+    }
+
+    // Lanjut ke pertanyaan berikutnya
+    if (currentStep < 9) {
+        currentStep++;
+        renderQuestion();
+    } else {
+        // Jika pertanyaan ke-10 selesai
+        document.getElementById('car-progress').style.left = '100%';
+        document.getElementById('track-fill').style.width  = '100%';
+        document.getElementById('progress-percent').innerText = '100';
+        setTimeout(() => {
+            calculateResults();
+            switchSection('result-section');
+        }, 400);
+    }
+}
+
 function backToSurvey() {
-    // Kembali dari Result Section ke Pertanyaan Terakhir (Q10)
     currentStep = 9; 
     switchSection('survey-section');
     renderQuestion();
@@ -728,7 +798,6 @@ function submitIdentity(e) {
     switchSection('survey-section');
     currentStep = 0;
     
-    // Jangan reset answers jika pengguna kembali dan submit lagi
     if(!answers) answers = []; 
     renderQuestion();
 }
@@ -737,10 +806,9 @@ function submitIdentity(e) {
 //  SURVEY LOGIC
 // ─────────────────────────────────────
 function renderQuestion() {
-    // Re-trigger animasi halus pada question card saat berganti soal (mundur/maju)
     const qCard = document.getElementById('question-card');
     qCard.style.animation = 'none';
-    void qCard.offsetHeight; // trigger reflow
+    void qCard.offsetHeight; 
     qCard.style.animation = null;
 
     document.getElementById('q-num').innerText   = currentStep + 1;
@@ -751,15 +819,24 @@ function renderQuestion() {
     document.getElementById('track-fill').style.width  = pct + '%';
     document.getElementById('progress-percent').innerText = pct;
 
-    // Menghapus seleksi sebelumnya pada UI
+    // Reset visual
     const cards = document.querySelectorAll('.option-card');
     cards.forEach(c => c.classList.remove('selected'));
+    document.getElementById('survey-warning').style.display = 'none';
 
-    // Menandai otomatis jika pengguna menggunakan tombol kembali dan sudah pernah menjawab
+    // Kembalikan pilihan jika pengguna menggunakan tombol kembali
     if (answers[currentStep]) {
         const score = answers[currentStep];
-        const idx = 5 - score; // Mapping skor ke Index: 5 => index 0, 1 => index 4
+        const idx = 5 - score; 
         if(cards[idx]) cards[idx].classList.add('selected');
+    }
+
+    // Ubah teks tombol Selanjutnya jadi "Selesai" jika di pertanyaan ke-10
+    const btnNext = document.getElementById('btn-next');
+    if (currentStep === 9) {
+        btnNext.innerHTML = `Lihat Hasil <i class="fa-solid fa-flag-checkered"></i>`;
+    } else {
+        btnNext.innerHTML = `Selanjutnya <i class="fa-solid fa-arrow-right"></i>`;
     }
 }
 
@@ -767,21 +844,9 @@ function selectOption(score, el) {
     document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
     el.classList.add('selected');
     answers[currentStep] = score;
-
-    setTimeout(() => {
-        if (currentStep < 9) {
-            currentStep++;
-            renderQuestion();
-        } else {
-            document.getElementById('car-progress').style.left = '100%';
-            document.getElementById('track-fill').style.width  = '100%';
-            document.getElementById('progress-percent').innerText = '100';
-            setTimeout(() => {
-                calculateResults();
-                switchSection('result-section');
-            }, 600);
-        }
-    }, 500);
+    
+    // Sembunyikan peringatan jika pengguna sudah memilih jawaban
+    document.getElementById('survey-warning').style.display = 'none';
 }
 
 // ─────────────────────────────────────
@@ -805,7 +870,6 @@ function calculateResults() {
             <div class="bk-val" style="color:${scoreColor(v)}">${v}</div>
         </div>`).join('');
 
-    // Menyimpan data untuk dikirim ke GAS (meski disembunyikan dari UI, data ini penting)
     respondentData.total_skor  = totalScore;
     respondentData.persentase  = percentage.toFixed(2);
     respondentData.kategori    = category;
@@ -828,7 +892,7 @@ function submitData() {
     btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Memproses Data...`;
 
     const payload = {
-        timestamp    : new Date().toLocaleString('id-ID'),
+        timestamp    : new Date().toLocaleString('id-ID'), 
         nama         : respondentData.nama,
         email        : respondentData.email,
         jenis_kelamin: respondentData.jenis_kelamin,
@@ -861,7 +925,6 @@ function submitData() {
 
 function showSuccess() {
     const sum = document.getElementById('success-summary');
-    // Karena kategori & skor dihapus dari halaman UI, di success page juga kita sesuaikan
     sum.innerHTML = `
         <div class="ss-item"><div class="ss-label">Nama Lengkap</div><div class="ss-val">${respondentData.nama}</div></div>
         <div class="ss-item"><div class="ss-label">Alamat Email</div><div class="ss-val">${respondentData.email}</div></div>
