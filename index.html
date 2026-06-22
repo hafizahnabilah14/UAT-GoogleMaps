@@ -1,825 +1,151 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Maps Experience Survey - UAT</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --g-blue: #4285F4;
-            --g-green: #34A853;
-            --g-red: #EA4335;
-            --g-yellow: #FBBC05;
-            --bg-dark: #0f172a;
-            --text-main: #f8fafc;
-            --text-muted: #cbd5e1;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terima Kasih</title>
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
+<style>
+:root{
+    --bg-dark:#0f172a;
+    --text-main:#f8fafc;
+    --text-muted:#cbd5e1;
+    --g-blue:#4285F4;
+    --g-green:#34A853;
+}
 
-        h1, h2, h3, .badge { font-family: 'Montserrat', sans-serif; }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        .map-background {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            z-index: -1;
-            background: radial-gradient(circle at top right, rgba(66,133,244,0.15), transparent 40%),
-                        radial-gradient(circle at bottom left, rgba(52,168,83,0.15), transparent 40%);
-        }
+body{
+    font-family:'Poppins',sans-serif;
+    background:var(--bg-dark);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    color:var(--text-main);
+    position:relative;
+}
 
-        .map-lines { width: 100%; height: 100%; position: absolute; opacity: 0.5; }
+body::before{
+    content:'';
+    position:absolute;
+    width:600px;
+    height:600px;
+    background:radial-gradient(circle, rgba(66,133,244,0.15), transparent 70%);
+    top:-200px;
+    right:-200px;
+}
 
-        .floating-element {
-            position: absolute;
-            font-size: 2rem;
-            opacity: 0.3;
-            animation: float 6s ease-in-out infinite;
-        }
-        .pin-1 { top: 20%; left: 15%; color: var(--g-red); animation-delay: 0s; }
-        .pin-2 { bottom: 30%; right: 20%; color: var(--g-yellow); animation-delay: 2s; }
-        .compass { top: 15%; right: 15%; color: var(--text-muted); font-size: 3rem; animation-delay: 1s; }
+body::after{
+    content:'';
+    position:absolute;
+    width:500px;
+    height:500px;
+    background:radial-gradient(circle, rgba(52,168,83,0.15), transparent 70%);
+    bottom:-200px;
+    left:-200px;
+}
 
-        @keyframes float {
-            0%,100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-        }
+.container{
+    max-width:800px;
+    text-align:center;
+    padding:40px;
+    z-index:2;
+}
 
-        .glass-panel {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
+.thankyou-image{
+    width:280px;
+    max-width:100%;
+    margin-bottom:30px;
+    animation:float 4s ease-in-out infinite;
+}
 
-        .glass-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: var(--glass-shadow);
-        }
+@keyframes float{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-12px);
+    }
+}
 
-        .app-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 2rem;
-            position: relative;
-        }
+h1{
+    font-family:'Montserrat',sans-serif;
+    font-size:3rem;
+    margin-bottom:20px;
+    background:linear-gradient(45deg,var(--g-blue),var(--g-green));
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
 
-        .section { display: none; width: 100%; max-width: 800px; margin: 0 auto; }
-        .section.active { display: block; }
+p{
+    font-size:1.1rem;
+    color:var(--text-muted);
+    line-height:1.8;
+    margin-bottom:15px;
+}
 
-        .fade-up { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.signature{
+    margin-top:30px;
+    font-weight:600;
+    color:white;
+}
 
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+@media(max-width:768px){
+    h1{
+        font-size:2.2rem;
+    }
 
-        /* ── BUTTON KEMBALI (ATAS) ── */
-        .btn-back {
-            background: transparent;
-            color: var(--text-muted);
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 8px 16px;
-            border-radius: 30px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.85rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 1.5rem;
-            transition: all 0.3s ease;
-        }
-        .btn-back:hover {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border-color: var(--g-blue);
-            transform: translateX(-3px);
-        }
+    p{
+        font-size:1rem;
+    }
 
-        /* ── HERO ── */
-        .hero-content { text-align: center; }
-
-        .badge {
-            display: inline-block;
-            padding: 8px 16px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 30px;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            margin-bottom: 1.5rem;
-        }
-
-        /* FLEXBOX UNTUK LOGO & JUDUL */
-        .title-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 1rem;
-        }
-
-        .maps-logo {
-            width: 80px;
-            height: auto;
-        }
-
-        .main-title { 
-            font-size: 3.5rem; 
-            line-height: 1.2; 
-            text-align: left; 
-        }
-
-        .gradient-text {
-            background: linear-gradient(45deg, var(--g-blue), var(--g-green));
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* ── WELCOME BOX ── */
-        .welcome-box {
-            background: rgba(66,133,244,0.08);
-            border: 1px solid rgba(66,133,244,0.25);
-            border-radius: 16px;
-            padding: 1.4rem 1.6rem;
-            margin: 1.2rem auto 1.8rem;
-            max-width: 680px;
-            text-align: justify;
-            line-height: 1.75;
-            color: #c8d8f8;
-            font-size: 0.95rem;
-            position: relative;
-        }
-        .welcome-box::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 4px; height: 100%;
-            background: linear-gradient(to bottom, var(--g-blue), var(--g-green));
-            border-radius: 4px 0 0 4px;
-        }
-
-        .subtitle { font-size: 1.5rem; color: var(--text-muted); margin-bottom: 1rem; }
-        .description { color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem; line-height: 1.6; }
-
-        .button-group {
-            display: flex; gap: 1rem; justify-content: center; margin-bottom: 3rem;
-        }
-
-        .btn {
-            padding: 12px 28px; border-radius: 12px;
-            font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 1rem;
-            cursor: pointer; transition: all 0.3s ease; border: none;
-            display: inline-flex; align-items: center; gap: 10px; justify-content: center;
-        }
-        .btn-primary {
-            background: var(--g-blue); color: white;
-            box-shadow: 0 4px 15px rgba(66,133,244,0.4);
-        }
-        .btn-primary:hover { background: #3367d6; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(66,133,244,0.6); }
-        .btn-secondary {
-            background: rgba(255,255,255,0.1); color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        .btn-secondary:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
-        .btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none !important; }
-
-        /* ── IDENTITY ── */
-        .identity-card h2 { margin-bottom: .4rem; }
-        .identity-card > p { color: var(--text-muted); margin-bottom: 1.5rem; font-size:.9rem; }
-
-        .input-group { margin-bottom: 1.5rem; text-align: left; }
-        .input-group label { display: block; margin-bottom: .5rem; font-size:.9rem; color: var(--text-muted); }
-        .input-group input, .input-group select {
-            width: 100%; padding: 14px;
-            background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px; color: white;
-            font-family: 'Poppins', sans-serif; font-size: 1rem; transition: all .3s;
-        }
-        .input-group input:focus, .input-group select:focus {
-            outline: none; border-color: var(--g-blue); background: rgba(0,0,0,0.4);
-        }
-        .input-group input::placeholder { color: rgba(255,255,255,0.3); }
-        .input-group select option { background: #1e293b; color: white; }
-
-        .w-100 { width: 100%; }
-        .mt-4 { margin-top: 1.5rem; }
-
-        /* ── SURVEY PROGRESS ── */
-        .survey-header { margin-bottom: 2rem; }
-        .progress-journey { display: flex; align-items: center; margin-bottom: 10px; }
-        .flag { font-size: 1.5rem; }
-        .track {
-            flex-grow: 1; height: 6px;
-            background: rgba(255,255,255,0.1);
-            margin: 0 15px; position: relative; border-radius: 3px;
-        }
-        .track-fill {
-            height: 100%; border-radius: 3px;
-            background: linear-gradient(to right, var(--g-blue), var(--g-green));
-            transition: width 0.5s ease-in-out; width: 0%;
-        }
-        .car-icon {
-            position: absolute; top: -12px; left: 0%;
-            font-size: 1.5rem; transition: left 0.5s ease-in-out;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,.5));
-        }
-        .progress-text { text-align: right; font-size: .85rem; color: var(--text-muted); }
-
-        /* ── QUESTION ── */
-        .question-number { font-size:.85rem; color: var(--g-blue); font-weight:600; display:block; margin-bottom:10px; }
-        .question-text { font-size: 1.35rem; margin-bottom: 2rem; line-height: 1.5; }
-
-        .options-grid { display: flex; flex-direction: column; gap: .9rem; }
-
-        .option-card {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 15px; padding: 15px 20px;
-            display: flex; align-items: center; cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175,0.885,0.32,1.275);
-            user-select: none;
-        }
-        .option-card:hover {
-            transform: scale(1.02);
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(255,255,255,0.3);
-            box-shadow: 0 10px 20px rgba(0,0,0,.2);
-        }
-        .option-card.selected {
-            background: rgba(66,133,244,0.2);
-            border-color: var(--g-blue);
-            box-shadow: 0 0 15px rgba(66,133,244,0.4);
-            animation: bounceSelect .4s ease;
-        }
-        .option-card .check-icon { margin-left:auto; color: var(--g-blue); font-size:1.2rem; display:none; }
-        .option-card.selected .check-icon { display:block; }
-
-        @keyframes bounceSelect {
-            0%,100% { transform: scale(1); }
-            50% { transform: scale(1.04); }
-        }
-
-        .emoji { font-size: 2rem; margin-right: 15px; }
-        .label-text { font-weight: 500; flex-grow: 1; }
-        .score-badge {
-            background: rgba(0,0,0,.3); padding: 4px 10px;
-            border-radius: 8px; font-size: .85rem; color: var(--text-muted);
-        }
-
-        /* ── SURVEY NAVIGATION & WARNING ── */
-        .survey-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        .survey-nav .btn {
-            flex: 1; 
-        }
-        #survey-warning {
-            display: none;
-            color: #EA4335;
-            background: rgba(234, 67, 53, 0.1);
-            border: 1px solid rgba(234, 67, 53, 0.3);
-            padding: 12px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 0.85rem;
-            margin-top: 1.5rem;
-        }
-
-        /* ── RESULT ── */
-        .result-card h2 { margin-bottom: .3rem; }
-        .result-card > .sub { color: var(--text-muted); font-size:.9rem; margin-bottom:1.5rem; }
-
-        /* score breakdown */
-        .breakdown-title { font-size:.9rem; color:var(--text-muted); margin-bottom:.8rem; font-weight:600; }
-        .breakdown-grid { display:grid; grid-template-columns: repeat(5,1fr); gap:.5rem; }
-        .bk-item {
-            background: rgba(255,255,255,.05); border-radius:10px;
-            padding:.6rem .3rem; text-align:center; border: 1px solid rgba(255,255,255,.08);
-        }
-        .bk-q { font-size:.7rem; color:var(--text-muted); margin-bottom:3px; }
-        .bk-val { font-size:1.2rem; font-weight:700; }
-
-        /* ── SUCCESS ── */
-        .success-card { text-align:center; }
-        .success-icon { font-size: 5rem; color: var(--g-green); margin-bottom:1.5rem; animation: successPop .5s cubic-bezier(0.175,0.885,0.32,1.275); }
-        @keyframes successPop { 0%{transform:scale(0);opacity:0} 100%{transform:scale(1);opacity:1} }
-        .success-card h2 { margin-bottom:.8rem; }
-        .success-card p { color:var(--text-muted); line-height:1.7; max-width:500px; margin:0 auto; }
-        .success-summary {
-            display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1.5rem 0;
-            text-align:left;
-        }
-        .ss-item { background:rgba(255,255,255,.05); border-radius:12px; padding:.9rem 1rem; border:1px solid rgba(255,255,255,.08); }
-        .ss-label { font-size:.75rem; color:var(--text-muted); margin-bottom:3px; }
-        .ss-val { font-weight:600; font-size:.95rem; }
-
-        /* ── FOOTER ── */
-        .app-footer { text-align:center; padding:2rem 0 1rem; font-size:.8rem; color:rgba(255,255,255,.3); margin-top:auto; }
-
-        /* ── RESPONSIVE ── */
-        @media(max-width:768px){
-            .title-wrapper {
-                flex-direction: column;
-                text-align: center;
-                gap: 10px;
-            }
-            .main-title { 
-                font-size:2.5rem; 
-                text-align: center;
-            }
-            .button-group { flex-direction:column; align-items:stretch; }
-            .survey-nav { flex-direction: column-reverse; } 
-            .breakdown-grid { grid-template-columns:repeat(5,1fr); }
-            .success-summary { grid-template-columns:1fr; }
-        }
-        @media(max-width:480px){
-            .main-title { font-size:1.6rem; }
-            .question-text { font-size:1.1rem; }
-        }
-    </style>
+    .thankyou-image{
+        width:220px;
+    }
+}
+</style>
 </head>
 <body>
-<div class="map-background">
-    <svg class="map-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
-        <path d="M0,20 Q40,30 50,70 T100,50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
-        <path d="M20,0 Q30,50 80,60 T100,90" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
-        <path d="M0,80 Q50,90 70,20 T100,10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
-    </svg>
-    <div class="floating-element pin pin-1"><i class="fa-solid fa-location-dot"></i></div>
-    <div class="floating-element pin pin-2"><i class="fa-solid fa-map-pin"></i></div>
-    <div class="floating-element compass"><i class="fa-regular fa-compass"></i></div>
+
+<div class="container">
+
+    <!-- GANTI DENGAN GAMBAR YANG AKAN KAMU UPLOAD -->
+    <img src="terimakasih.png" alt="Terima Kasih" class="thankyou-image">
+
+    <h1>Terima Kasih 🎉</h1>
+
+    <p>
+        Kuesioner User Acceptance Test (UAT) Google Maps telah selesai diisi.
+        Terima kasih atas waktu, perhatian, dan partisipasi Anda dalam mendukung penelitian ini.
+    </p>
+
+    <p>
+        Setiap jawaban yang diberikan sangat berarti dan akan digunakan sebagai bahan evaluasi
+        dalam penelitian mengenai kemudahan penggunaan aplikasi Google Maps.
+    </p>
+
+    <p>
+        Semoga segala kebaikan yang Anda berikan mendapatkan balasan berupa kesehatan,
+        kebahagiaan, kesuksesan, serta kemudahan dalam mencapai cita-cita dan tujuan hidup.
+    </p>
+
+    <div class="signature">
+        Hormat saya,<br>
+        <strong>Hafizah Nabilah</strong><br>
+        Program Studi Sistem Informasi<br>
+        Universitas Islam Kalimantan MAB Banjarmasin
+    </div>
+
 </div>
 
-<main class="app-container glass-panel">
-
-    <section id="hero-section" class="section active">
-        <div class="hero-content fade-up">
-            <span class="badge">🗺️ USER ACCEPTANCE TEST</span>
-            
-            <div class="title-wrapper">
-                <img src="logomaps2.png" alt="Google Maps Logo" class="maps-logo">
-                <h1 class="main-title">Google Maps<br><span class="gradient-text">Experience Survey</span></h1>
-            </div>
-
-            <p class="subtitle">Evaluasi Kemudahan Penggunaan Aplikasi Google Maps</p>
-
-            <div class="welcome-box">
-                👋 Selamat datang! Saya <strong>Hafizah Nabilah</strong>, mahasiswa Program Studi Sistem Informasi
-                <strong>Universitas Islam Kalimantan Muhammad Arsyad Al Banjari Banjarmasin</strong>.
-                Survei ini disusun sebagai bagian dari penelitian akademik untuk mengevaluasi
-                <em>usability</em> (kemudahan penggunaan) aplikasi Google Maps. Mohon luangkan
-                beberapa menit untuk menjawab pertanyaan berdasarkan pengalaman Anda menggunakan
-                Google Maps. Terima kasih atas partisipasi dan dukungan Anda terhadap penelitian ini.
-            </div>
-
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="startSurvey()">
-                    <i class="fa-solid fa-rocket"></i> Mulai Survey
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <section id="identity-section" class="section">
-        <div class="identity-card glass-card fade-up">
-            <button type="button" class="btn-back" onclick="switchSection('hero-section')">
-                <i class="fa-solid fa-arrow-left"></i> Kembali ke Awal
-            </button>
-
-            <h2><i class="fa-solid fa-id-card"></i> Identitas Responden</h2>
-            <p>Silakan lengkapi data diri Anda sebelum memulai.</p>
-
-            <form id="identity-form" onsubmit="submitIdentity(event)">
-
-                <div class="input-group">
-                    <label for="nama"><i class="fa-solid fa-user"></i> Nama Lengkap <span style="color:#EA4335">*</span></label>
-                    <input type="text" id="nama" required placeholder="Masukkan nama lengkap Anda">
-                </div>
-
-                <div class="input-group">
-                    <label for="email"><i class="fa-solid fa-envelope"></i> Alamat Email <span style="color:#EA4335">*</span></label>
-                    <input type="email" id="email" required placeholder="Masukkan email aktif Anda">
-                </div>
-
-                <div class="input-group">
-                    <label for="gender"><i class="fa-solid fa-venus-mars"></i> Jenis Kelamin <span style="color:#EA4335">*</span></label>
-                    <select id="gender" required>
-                        <option value="" disabled selected>Pilih Jenis Kelamin</option>
-                        <option value="Laki-laki">Laki-laki</option>
-                        <option value="Perempuan">Perempuan</option>
-                    </select>
-                </div>
-
-                <div class="input-group">
-                    <label for="usia"><i class="fa-solid fa-calendar"></i> Usia <span style="color:#EA4335">*</span></label>
-                    <input type="number" inputmode="numeric" pattern="[0-9]*" id="usia" required placeholder="Contoh: 21" min="10" max="100">
-                </div>
-
-                <button type="submit" class="btn btn-primary w-100 mt-4">
-                    Lanjutkan Survey <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </form>
-        </div>
-    </section>
-
-    <section id="survey-section" class="section">
-        <div class="survey-header">
-            <div class="progress-journey">
-                <div class="flag">🏁</div>
-                <div class="track">
-                    <div class="track-fill" id="track-fill"></div>
-                    <div class="car-icon" id="car-progress">🚗</div>
-                </div>
-                <div class="flag">🎯</div>
-            </div>
-            <div class="progress-text">Progress: <span id="progress-percent">0</span>%</div>
-        </div>
-
-        <div class="question-container glass-card fade-up" id="question-card">
-            <span class="question-number">Pertanyaan <span id="q-num">1</span> / 10</span>
-            <h2 class="question-text" id="q-text"></h2>
-            
-            <div class="options-grid" id="options-grid">
-                <div class="option-card" onclick="selectOption(5,this)">
-                    <div class="emoji">😍</div>
-                    <div class="label-text">Sangat Mudah</div>
-                    <div class="score-badge">5</div>
-                    <i class="fa-solid fa-circle-check check-icon"></i>
-                </div>
-                <div class="option-card" onclick="selectOption(4,this)">
-                    <div class="emoji">😊</div>
-                    <div class="label-text">Mudah</div>
-                    <div class="score-badge">4</div>
-                    <i class="fa-solid fa-circle-check check-icon"></i>
-                </div>
-                <div class="option-card" onclick="selectOption(3,this)">
-                    <div class="emoji">😐</div>
-                    <div class="label-text">Netral</div>
-                    <div class="score-badge">3</div>
-                    <i class="fa-solid fa-circle-check check-icon"></i>
-                </div>
-                <div class="option-card" onclick="selectOption(2,this)">
-                    <div class="emoji">😕</div>
-                    <div class="label-text">Cukup Sulit</div>
-                    <div class="score-badge">2</div>
-                    <i class="fa-solid fa-circle-check check-icon"></i>
-                </div>
-                <div class="option-card" onclick="selectOption(1,this)">
-                    <div class="emoji">😫</div>
-                    <div class="label-text">Sangat Sulit</div>
-                    <div class="score-badge">1</div>
-                    <i class="fa-solid fa-circle-check check-icon"></i>
-                </div>
-            </div>
-
-            <div id="survey-warning">
-                <i class="fa-solid fa-circle-exclamation"></i> Silakan pilih salah satu jawaban terlebih dahulu.
-            </div>
-
-            <div class="survey-nav">
-                <button type="button" class="btn btn-secondary" onclick="surveyGoBack()">
-                    <i class="fa-solid fa-arrow-left"></i> Sebelumnya
-                </button>
-                <button type="button" class="btn btn-primary" id="btn-next" onclick="surveyGoNext()">
-                    Selanjutnya <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <section id="result-section" class="section">
-        <div class="result-card glass-card fade-up">
-            <button type="button" class="btn-back" onclick="backToSurvey()">
-                <i class="fa-solid fa-arrow-left"></i> Edit Jawaban
-            </button>
-
-            <h2>📊 Analisis Hasil UAT</h2>
-            <p class="sub">Berikut adalah rincian skor evaluasi usability Google Maps Anda.</p>
-
-            <p class="breakdown-title"><i class="fa-solid fa-list-check"></i> Rincian Skor per Pertanyaan</p>
-            <div class="breakdown-grid" id="breakdown-grid"></div>
-
-            <button id="submit-btn" class="btn btn-primary w-100 mt-4" onclick="submitData()">
-                <i class="fa-solid fa-paper-plane"></i> Kirim Evaluasi
-            </button>
-        </div>
-    </section>
-
-    <section id="success-section" class="section">
-        <div class="success-card glass-card fade-up">
-            <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
-            <h2>Evaluasi Berhasil Dikirim! 🎉</h2>
-            <p>Terima kasih banyak telah meluangkan waktu untuk mengisi survei ini. Semoga segala kebaikan yang Anda berikan dibalas dengan kebahagiaan, kesehatan, kesuksesan, serta kelancaran dalam setiap langkah dan cita-cita yang sedang diperjuangkan. Semoga hari-hari Anda selalu dipenuhi hal-hal baik✨</p>
-            <div class="success-summary" id="success-summary"></div>
-            
-            <button class="btn btn-secondary mt-4" onclick="location.reload()">
-                <i class="fa-solid fa-rotate-right"></i> Isi Survey Lagi
-            </button>
-        </div>
-    </section>
-
-    <footer class="app-footer">
-        <p>Designed for UAT by <strong>Hafizah Nabilah (2310020044)</strong> · Program Studi Sistem Informasi · UNISKA MAB Banjarmasin</p>
-    </footer>
-</main>
-
-<script>
-// ═══════════════════════════════════════════════
-//  CONFIG — ganti URL di bawah setelah deploy GAS
-// ═══════════════════════════════════════════════
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby4xV1hcG0Elclxq5eAJ1NRNN5655JzX0CTHB1XW7nPJ7gu-heOCPiZkU2eKu0LrovN/exec";
-
-// ─────────────────────────────────────
-//  DATA
-// ─────────────────────────────────────
-const questions = [
-    "Seberapa mudah Anda membuka dan mulai menggunakan Google Maps?",
-    "Seberapa mudah Anda mencari lokasi atau tempat yang diinginkan menggunakan Google Maps?",
-    "Seberapa mudah Anda memahami fungsi menu-menu yang tersedia pada Google Maps?",
-    "Seberapa mudah Anda menggunakan fitur petunjuk arah (Directions) pada Google Maps?",
-    "Seberapa mudah Anda memilih moda transportasi yang tersedia pada Google Maps?",
-    "Seberapa mudah Anda menemukan informasi suatu tempat melalui Google Maps?",
-    "Seberapa mudah Anda memahami simbol dan ikon yang ditampilkan pada Google Maps?",
-    "Seberapa mudah Anda menggunakan fitur pencarian rute alternatif pada Google Maps?",
-    "Seberapa mudah Anda menggunakan Google Maps tanpa bantuan orang lain?",
-    "Secara keseluruhan, seberapa mudah Google Maps digunakan untuk kebutuhan navigasi Anda?"
-];
-
-// ─────────────────────────────────────
-//  STATE
-// ─────────────────────────────────────
-let currentStep  = 0;
-let respondentData = {};
-let answers      = [];
-
-// ─────────────────────────────────────
-//  NAVIGATION
-// ─────────────────────────────────────
-function switchSection(id) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    const target = document.getElementById(id);
-    target.classList.add('active');
-    
-    // Trigger ulang animasi fade up
-    target.querySelectorAll('.fade-up').forEach(el => {
-        el.style.animation = 'none';
-        void el.offsetHeight;
-        el.style.animation = null;
-    });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function startSurvey() { switchSection('identity-section'); }
-
-// ─────────────────────────────────────
-//  SURVEY NAVIGATION LOGIC
-// ─────────────────────────────────────
-function surveyGoBack() {
-    if (currentStep > 0) {
-        currentStep--;
-        renderQuestion();
-    } else {
-        switchSection('identity-section');
-    }
-}
-
-function surveyGoNext() {
-    const warning = document.getElementById('survey-warning');
-    
-    // VALIDASI: Cek apakah responden sudah memilih jawaban
-    if (answers[currentStep] === undefined || answers[currentStep] === null) {
-        warning.style.display = 'block';
-        // Animasi getar kecil
-        warning.style.animation = 'none';
-        void warning.offsetWidth;
-        warning.style.animation = 'bounceSelect 0.4s ease';
-        return;
-    }
-
-    // Lanjut ke pertanyaan berikutnya
-    if (currentStep < 9) {
-        currentStep++;
-        renderQuestion();
-    } else {
-        // Jika pertanyaan ke-10 selesai
-        document.getElementById('car-progress').style.left = '100%';
-        document.getElementById('track-fill').style.width  = '100%';
-        document.getElementById('progress-percent').innerText = '100';
-        setTimeout(() => {
-            calculateResults();
-            switchSection('result-section');
-        }, 400);
-    }
-}
-
-function backToSurvey() {
-    currentStep = 9; 
-    switchSection('survey-section');
-    renderQuestion();
-}
-
-// ─────────────────────────────────────
-//  IDENTITY SUBMIT
-// ─────────────────────────────────────
-function submitIdentity(e) {
-    e.preventDefault();
-    respondentData = {
-        nama         : document.getElementById('nama').value.trim(),
-        email        : document.getElementById('email').value.trim(),
-        jenis_kelamin: document.getElementById('gender').value,
-        usia         : document.getElementById('usia').value
-    };
-    switchSection('survey-section');
-    currentStep = 0;
-    
-    if(!answers) answers = []; 
-    renderQuestion();
-}
-
-// ─────────────────────────────────────
-//  SURVEY LOGIC
-// ─────────────────────────────────────
-function renderQuestion() {
-    const qCard = document.getElementById('question-card');
-    qCard.style.animation = 'none';
-    void qCard.offsetHeight; 
-    qCard.style.animation = null;
-
-    document.getElementById('q-num').innerText   = currentStep + 1;
-    document.getElementById('q-text').innerText  = questions[currentStep];
-
-    const pct = Math.round((currentStep / 10) * 100);
-    document.getElementById('car-progress').style.left = pct + '%';
-    document.getElementById('track-fill').style.width  = pct + '%';
-    document.getElementById('progress-percent').innerText = pct;
-
-    // Reset visual
-    const cards = document.querySelectorAll('.option-card');
-    cards.forEach(c => c.classList.remove('selected'));
-    document.getElementById('survey-warning').style.display = 'none';
-
-    // Kembalikan pilihan jika pengguna menggunakan tombol kembali
-    if (answers[currentStep]) {
-        const score = answers[currentStep];
-        const idx = 5 - score; 
-        if(cards[idx]) cards[idx].classList.add('selected');
-    }
-
-    // Ubah teks tombol Selanjutnya jadi "Lihat Hasil" jika di pertanyaan ke-10
-    const btnNext = document.getElementById('btn-next');
-    if (currentStep === 9) {
-        btnNext.innerHTML = `Lihat Hasil <i class="fa-solid fa-flag-checkered"></i>`;
-    } else {
-        btnNext.innerHTML = `Selanjutnya <i class="fa-solid fa-arrow-right"></i>`;
-    }
-}
-
-function selectOption(score, el) {
-    document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
-    el.classList.add('selected');
-    answers[currentStep] = score;
-    
-    // Sembunyikan peringatan jika pengguna sudah memilih jawaban
-    document.getElementById('survey-warning').style.display = 'none';
-}
-
-// ─────────────────────────────────────
-//  RESULT CALCULATION
-// ─────────────────────────────────────
-function calculateResults() {
-    const totalScore = answers.reduce((a,b) => a+b, 0);
-    const percentage = (totalScore / 50) * 100;
-
-    let category;
-    if      (percentage > 80) { category = "Explorer Maps 🟢";    }
-    else if (percentage > 60) { category = "Route Finder 🔵";      }
-    else if (percentage > 40) { category = "Casual Navigator 🟡";  }
-    else if (percentage > 20) { category = "Lost Traveler 🟠";      }
-    else                       { category = "Need Directions 🔴";   }
-
-    const grid = document.getElementById('breakdown-grid');
-    grid.innerHTML = answers.map((v,i) => `
-        <div class="bk-item">
-            <div class="bk-q">Q${i+1}</div>
-            <div class="bk-val" style="color:${scoreColor(v)}">${v}</div>
-        </div>`).join('');
-
-    respondentData.total_skor  = totalScore;
-    respondentData.persentase  = percentage.toFixed(2);
-    respondentData.kategori    = category;
-}
-
-function scoreColor(v){
-    if(v>=5) return '#34A853';
-    if(v>=4) return '#4285F4';
-    if(v>=3) return '#FBBC05';
-    if(v>=2) return '#f97316';
-    return '#EA4335';
-}
-
-// ─────────────────────────────────────
-//  SUBMIT TO GOOGLE APPS SCRIPT
-// ─────────────────────────────────────
-function submitData() {
-    const btn = document.getElementById('submit-btn');
-    btn.disabled = true;
-    btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Memproses Data...`;
-
-    const payload = {
-        timestamp    : new Date().toLocaleString('id-ID'), 
-        nama         : respondentData.nama,
-        email        : respondentData.email,
-        jenis_kelamin: respondentData.jenis_kelamin,
-        usia         : respondentData.usia,
-        total_skor   : respondentData.total_skor,
-        persentase   : respondentData.persentase,
-        kategori     : respondentData.kategori
-    };
-
-    answers.forEach((v, i) => { payload[`q${i+1}`] = v; });
-
-    fetch(SCRIPT_URL, {
-        method : 'POST',
-        mode   : 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body   : JSON.stringify(payload)
-    })
-    .then(() => {
-        showSuccess();
-    })
-    .catch(err => {
-        console.error('Submit error:', err);
-        alert('Terjadi kesalahan koneksi. Periksa koneksi internet Anda dan coba lagi.');
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Kirim Evaluasi`;
-    });
-}
-
-function showSuccess() {
-    const sum = document.getElementById('success-summary');
-    sum.innerHTML = `
-        <div class="ss-item"><div class="ss-label">Nama Lengkap</div><div class="ss-val">${respondentData.nama}</div></div>
-        <div class="ss-item"><div class="ss-label">Alamat Email</div><div class="ss-val">${respondentData.email}</div></div>
-    `;
-    
-    triggerConfetti();
-    switchSection('success-section');
-}
-
-// ─────────────────────────────────────
-//  CONFETTI
-// ─────────────────────────────────────
-function triggerConfetti() {
-    for (let i = 0; i < 60; i++) setTimeout(createConfetti, i * 30);
-}
-function createConfetti() {
-    const el = document.createElement('div');
-    const colors = ['#4285F4','#34A853','#FBBC05','#EA4335','#fff'];
-    Object.assign(el.style, {
-        position  : 'fixed',
-        width     : (Math.random()*8+5) + 'px',
-        height    : (Math.random()*8+5) + 'px',
-        background: colors[Math.floor(Math.random()*colors.length)],
-        left      : (Math.random()*100) + 'vw',
-        top       : '-12px',
-        borderRadius: Math.random()>.5 ? '50%' : '2px',
-        zIndex    : '9999',
-        pointerEvents: 'none'
-    });
-    document.body.appendChild(el);
-    const dur = Math.random()*3000 + 2000;
-    el.animate([
-        { transform: `translate(0,0) rotate(0deg)`, opacity: 1 },
-        { transform: `translate(${Math.random()*120-60}px,100vh) rotate(${Math.random()*720}deg)`, opacity: 0 }
-    ], { duration: dur, easing: 'cubic-bezier(.37,0,.63,1)', fill: 'forwards' });
-    setTimeout(() => el.remove(), dur);
-}
-</script>
 </body>
 </html>
